@@ -3,7 +3,9 @@ import { NavLink } from "src/component/Button";
 
 const items = [
   { href: "/", label: "Root" },
-  { href: "/about", label: "About" },
+  { href: "/lazy", label: "Lazy" },
+  { href: "/createUser", label: "ユーザー作成" },
+  { href: "/subscriptionUser", label: "ユーザーサブスクリプション" },
 ];
 
 /**

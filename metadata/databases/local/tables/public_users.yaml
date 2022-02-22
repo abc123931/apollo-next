@@ -1,0 +1,10 @@
+table:
+  name: users
+  schema: public
+configuration:
+  custom_column_names: {}
+  custom_root_fields:
+    delete_by_pk: deleteUser
+    insert_one: insertUser
+    select_by_pk: user
+    update_by_pk: updateUser
