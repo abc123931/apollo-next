@@ -1,15 +1,15 @@
 import type { Reference } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useMutation } from "@apollo/client";
-import { useGetUsersQuery } from "lib/apollo/graphql";
 import type { VFC } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { DELETE_USER, UPDATE_USER } from "src/queries";
+import { DELETE_USER, GET_USERS, UPDATE_USER } from "src/queries";
 import type { User } from "src/type/apolloTypes";
 
 export const Index: VFC = () => {
-  // const { data, error, loading } = useQuery<{ users: User[] }>(GET_USERS);
-  const { data, error, loading } = useGetUsersQuery();
+  const { data, error, loading } = useQuery<{ users: User[] }>(GET_USERS);
+  // const { data, error, loading } = useGetUsersQuery();
 
   if (error) {
     return <div>エラー</div>;
