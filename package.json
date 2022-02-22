@@ -16,7 +16,8 @@
     "fix:lint": "next lint --fix",
     "fix:prettier": "prettier --write .",
     "env": "vc env pull .env.local",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "hasura:console": "hasura --project ./hasura/ console --admin-secret myadminsecretkey"
   },
   "postcss": {
     "plugins": {
