@@ -43,12 +43,12 @@ type UserItemProps = {
 const UserItem: VFC<UserItemProps> = ({ user }) => {
   const [updateUser] = useMutation(UPDATE_USER);
   const [deleteUser] = useMutation(DELETE_USER, {
-    update(cache) {
+    update(cache, { data: { deleteUser } }) {
       cache.modify({
         fields: {
           users(existingEventRefs, { readField }) {
             return existingEventRefs.filter(
-              (ref: Reference) => user.id !== readField("id", ref)
+              (ref: Reference) => deleteUser.id !== readField("id", ref)
             );
           },
         },
