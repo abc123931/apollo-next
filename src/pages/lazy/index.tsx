@@ -1,6 +1,7 @@
-import { gql, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import type { VFC } from "react";
 import { Button } from "src/component/Button";
+import { GET_USERS } from "src/queries";
 
 export const Lazy: VFC = () => {
   const [getUsers, { data, error, loading }] = useLazyQuery<{
@@ -36,12 +37,3 @@ export const Lazy: VFC = () => {
     </div>
   );
 };
-
-const GET_USERS = gql`
-  query GetUsers {
-    users {
-      id
-      name
-    }
-  }
-`;

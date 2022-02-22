@@ -1,10 +1,12 @@
-import { gql, useSubscription } from "@apollo/client";
+import { useSubscription } from "@apollo/client";
 import type { VFC } from "react";
+import { SUBSCRIPTION_GET_USERS } from "src/queries";
 import type { User } from "src/type/apolloTypes";
 
 export const SubscriptionUser: VFC = () => {
-  const { data, error, loading } =
-    useSubscription<{ users: User[] }>(GET_USERS);
+  const { data, error, loading } = useSubscription<{ users: User[] }>(
+    SUBSCRIPTION_GET_USERS
+  );
 
   if (error) {
     return <div>エラー</div>;
@@ -29,12 +31,3 @@ export const SubscriptionUser: VFC = () => {
     </div>
   );
 };
-
-const GET_USERS = gql`
-  subscription GetUsers {
-    users {
-      id
-      name
-    }
-  }
-`;

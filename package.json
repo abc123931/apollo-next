@@ -17,7 +17,8 @@
     "fix:prettier": "prettier --write .",
     "env": "vc env pull .env.local",
     "prepare": "husky install",
-    "hasura:console": "hasura --project ./hasura/ console --admin-secret myadminsecretkey"
+    "hasura:console": "hasura --project ./hasura/ console --admin-secret myadminsecretkey",
+    "codegen": "graphql-codegen --config lib/apollo/codegen.js"
   },
   "postcss": {
     "plugins": {
@@ -36,6 +37,11 @@
     "react-hook-form": "^7.27.1"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/introspection": "^2.1.1",
+    "@graphql-codegen/typescript": "^2.4.5",
+    "@graphql-codegen/typescript-operations": "^2.3.2",
+    "@graphql-codegen/typescript-react-apollo": "^3.2.8",
     "@playwright/test": "1.19.1",
     "@tailwindcss/forms": "0.4.0",
     "@tailwindcss/line-clamp": "0.3.1",
@@ -50,6 +56,7 @@
     "@typescript-eslint/eslint-plugin": "5.12.0",
     "@typescript-eslint/parser": "5.12.0",
     "autoprefixer": "10.4.2",
+    "dotenv": "^16.0.0",
     "eslint": "8.9.0",
     "eslint-config-next": "12.1.0",
     "eslint-config-prettier": "8.4.0",

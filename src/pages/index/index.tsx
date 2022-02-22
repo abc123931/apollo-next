@@ -1,15 +1,15 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import type { Reference } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import { useGetUsersQuery } from "lib/apollo/graphql";
 import type { VFC } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button } from "src/component/Button";
+import { DELETE_USER, UPDATE_USER } from "src/queries";
 import type { User } from "src/type/apolloTypes";
 
 export const Index: VFC = () => {
-  const { data, error, loading } = useQuery<{ users: User[] }>(GET_USERS);
-  const handleClick = () => {
-    window.alert("Hello, World!");
-  };
+  // const { data, error, loading } = useQuery<{ users: User[] }>(GET_USERS);
+  const { data, error, loading } = useGetUsersQuery();
 
   if (error) {
     return <div>エラー</div>;
@@ -33,9 +33,6 @@ export const Index: VFC = () => {
       ) : (
         <p>ユーザーがいません</p>
       )}
-      <Button tag="button" className="p-2" onClick={handleClick}>
-        Click me!
-      </Button>
     </div>
   );
 };
@@ -45,7 +42,20 @@ type UserItemProps = {
 };
 const UserItem: VFC<UserItemProps> = ({ user }) => {
   const [updateUser] = useMutation(UPDATE_USER);
-  const [deleteUser] = useMutation(DELETE_USER);
+  const [deleteUser] = useMutation(DELETE_USER, {
+    update(cache) {
+      cache.modify({
+        fields: {
+          users(existingEventRefs, { readField }) {
+            return existingEventRefs.filter(
+              (ref: Reference) => user.id !== readField("id", ref)
+            );
+          },
+        },
+      });
+    },
+  });
+
   const { handleSubmit, register, reset } = useForm<{ name: string }>({
     defaultValues: {
       name: user.name,
@@ -106,29 +116,3 @@ const UserItem: VFC<UserItemProps> = ({ user }) => {
     </div>
   );
 };
-
-const GET_USERS = gql`
-  query GetUsers {
-    users {
-      id
-      name
-    }
-  }
-`;
-
-const UPDATE_USER = gql`
-  mutation UpdateUser($input: users_set_input!, $id: uuid!) {
-    updateUser(_set: $input, pk_columns: { id: $id }) {
-      id
-      name
-    }
-  }
-`;
-
-const DELETE_USER = gql`
-  mutation DeleteUser($id: uuid!) {
-    deleteUser(id: $id) {
-      id
-    }
-  }
-`;

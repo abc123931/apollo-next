@@ -1,13 +1,16 @@
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import type { VFC } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/component/Button";
+import { CREATE_USER, GET_USERS } from "src/queries";
 
 export const CreateUser: VFC = () => {
   const { handleSubmit, register, reset } = useForm<{ name: string }>({
     defaultValues: { name: "" },
   });
-  const [createUser] = useMutation(CREATE_USER);
+  const [createUser] = useMutation(CREATE_USER, {
+    refetchQueries: [{ query: GET_USERS }],
+  });
   const handleClick = handleSubmit(async (data) => {
     try {
       await createUser({ variables: { input: { name: data.name } } });
@@ -29,12 +32,3 @@ export const CreateUser: VFC = () => {
     </div>
   );
 };
-
-const CREATE_USER = gql`
-  mutation CreateUser($input: users_insert_input!) {
-    insertUser(object: $input) {
-      id
-      name
-    }
-  }
-`;
